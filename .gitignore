@@ -1,0 +1,21 @@
+# Carpetas de build de .NET
+bin/
+obj/
+
+# Archivos de usuario de Visual Studio / Rider
+.vs/
+.vscode/
+*.user
+*.suo
+
+# Certificados de desarrollo HTTPS generados localmente
+*.pfx
+
+# Configuración local con datos de conexión reales (contiene la contraseña
+# del rol de Postgres de desarrollo). Se versiona solo la plantilla
+# appsettings.Development.json.example con valores de ejemplo.
+appsettings.Development.json
+
+# Logs y artefactos de publicación
+*.log
+publish/
