@@ -1,5 +1,7 @@
 # GymEquipmentTracker
 
+🔗 **Demo en vivo:** [demo-gym.danielbanariba.com](https://demo-gym.danielbanariba.com)
+
 ## Qué es esto y por qué existe
 
 Tracker interno de equipo y mantenimiento para un gimnasio: lista el equipo
