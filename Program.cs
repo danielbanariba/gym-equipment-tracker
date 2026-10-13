@@ -17,6 +17,16 @@ builder.Services.AddDbContext<GymDbContext>(options =>
 
 var app = builder.Build();
 
+// DbSeeder necesita un GymDbContext, pero acá afuera (en el nivel superior
+// de Program.cs) todavía no hay un request HTTP en curso que le dé uno
+// prestado automáticamente. CreateScope() crea manualmente ese "scope" de
+// inyección de dependencias solo para esta sembrada inicial de datos.
+using (var seedScope = app.Services.CreateScope())
+{
+    var db = seedScope.ServiceProvider.GetRequiredService<GymDbContext>();
+    await DbSeeder.SeedAsync(db);
+}
+
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
