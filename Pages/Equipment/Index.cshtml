@@ -1,0 +1,65 @@
+@page
+@model GymEquipmentTracker.Pages.Equipment.IndexModel
+@{
+    ViewData["Title"] = "Equipo";
+}
+
+<h1>Equipo del gimnasio</h1>
+<p class="text-muted">Estado actual de cada máquina/implemento. El filtro de abajo corre en el navegador, sin volver a pedir datos al servidor.</p>
+
+<div class="row mb-3">
+    <div class="col-md-6">
+        <input type="text" id="equipment-search" class="form-control" placeholder="Buscar por nombre, categoría o ubicación..." />
+    </div>
+    <div class="col-md-3">
+        <select id="equipment-status-filter" class="form-select">
+            <option value="">Todos los estados</option>
+            <option value="Operational">Operativo</option>
+            <option value="UnderMaintenance">En mantenimiento</option>
+            <option value="OutOfService">Fuera de servicio</option>
+        </select>
+    </div>
+</div>
+
+<table class="table table-striped" id="equipment-table">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Categoría</th>
+            <th>Ubicación</th>
+            <th>Estado</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model.EquipmentList)
+    {
+        var statusLabel = item.Status switch
+        {
+            EquipmentStatus.Operational => "Operativo",
+            EquipmentStatus.UnderMaintenance => "En mantenimiento",
+            EquipmentStatus.OutOfService => "Fuera de servicio",
+            _ => item.Status.ToString()
+        };
+        var badgeClass = item.Status switch
+        {
+            EquipmentStatus.Operational => "bg-success",
+            EquipmentStatus.UnderMaintenance => "bg-warning text-dark",
+            EquipmentStatus.OutOfService => "bg-danger",
+            _ => "bg-secondary"
+        };
+
+        <tr data-category="@item.Category.ToLowerInvariant()" data-status="@item.Status">
+            <td>@item.Name</td>
+            <td>@item.Category</td>
+            <td>@item.Location</td>
+            <td><span class="badge @badgeClass">@statusLabel</span></td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<p id="equipment-empty-message" class="text-muted d-none">Ningún equipo coincide con el filtro.</p>
+
+@section Scripts {
+    <script src="~/js/equipment-filter.js"></script>
+}

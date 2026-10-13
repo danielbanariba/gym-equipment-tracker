@@ -20,3 +20,17 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+/* Estilos propios del tracker, encima del Bootstrap que trae la plantilla. */
+
+.card-text.display-6 {
+  font-weight: 600;
+}
+
+#equipment-table tbody tr td {
+  vertical-align: middle;
+}
+
+.status-update-form select {
+  min-width: 9rem;
+}

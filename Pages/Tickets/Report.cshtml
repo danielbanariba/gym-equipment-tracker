@@ -1,0 +1,52 @@
+@page
+@model GymEquipmentTracker.Pages.Tickets.ReportModel
+@{
+    ViewData["Title"] = "Reportar un problema";
+}
+
+<h1>Reportar un problema</h1>
+<p class="text-muted">Crea un ticket de mantenimiento nuevo para un equipo del gimnasio.</p>
+
+<div class="row">
+    <div class="col-md-6">
+        <form method="post">
+            @* asp-validation-summary muestra los errores de ModelState que no
+               están atados a un campo puntual; los de cada campo los pinta
+               el <span asp-validation-for="..."> de abajo. *@
+            <div asp-validation-summary="All" class="text-danger"></div>
+
+            <div class="mb-3">
+                <label asp-for="NewTicket.EquipmentId" class="form-label">Equipo</label>
+                @* asp-items es un Tag Helper: en tiempo de ejecución genera
+                   una etiqueta <option> por cada SelectListItem de
+                   EquipmentOptions. Reemplaza escribir el <option> a mano
+                   con un @foreach. *@
+                <select asp-for="NewTicket.EquipmentId" asp-items="Model.EquipmentOptions" class="form-select">
+                    <option value="">-- Seleccioná un equipo --</option>
+                </select>
+                <span asp-validation-for="NewTicket.EquipmentId" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="NewTicket.ProblemDescription" class="form-label">Descripción del problema</label>
+                <textarea asp-for="NewTicket.ProblemDescription" class="form-control" rows="4" maxlength="500"></textarea>
+                <span asp-validation-for="NewTicket.ProblemDescription" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="NewTicket.ReportedBy" class="form-label">Reportado por</label>
+                <input asp-for="NewTicket.ReportedBy" class="form-control" placeholder="Tu nombre" />
+                <span asp-validation-for="NewTicket.ReportedBy" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Reportar</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @* Partial compartido de la plantilla default que agrega jquery.validate
+       (validación en el navegador, antes de llegar al servidor) a cualquier
+       formulario con los Tag Helpers asp-for/asp-validation-for. *@
+    <partial name="_ValidationScriptsPartial" />
+}

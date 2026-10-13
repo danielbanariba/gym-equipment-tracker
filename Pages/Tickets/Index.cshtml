@@ -1,0 +1,81 @@
+@page
+@model GymEquipmentTracker.Pages.Tickets.IndexModel
+@{
+    ViewData["Title"] = "Tickets de mantenimiento";
+}
+
+<h1>Tickets de mantenimiento</h1>
+
+@if (TempData["SuccessMessage"] is string successMessage)
+{
+    <div class="alert alert-success">@successMessage</div>
+}
+
+<p>
+    <a asp-page="/Tickets/Report" class="btn btn-primary">Reportar un problema</a>
+</p>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Equipo</th>
+            <th>Problema</th>
+            <th>Reportado por</th>
+            <th>Fecha de reporte</th>
+            <th>Estado</th>
+            <th>Fecha de resolución</th>
+            <th>Actualizar estado</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var ticket in Model.TicketList)
+    {
+        <tr>
+            <td>@(ticket.Equipment?.Name ?? "—")</td>
+            <td>@ticket.ProblemDescription</td>
+            <td>@ticket.ReportedBy</td>
+            <td>@ticket.ReportedAt.ToLocalTime().ToString("dd/MM/yyyy HH:mm")</td>
+            <td>
+                @{
+                    var statusLabel = ticket.Status switch
+                    {
+                        TicketStatus.Reported => "Reportado",
+                        TicketStatus.InProgress => "En progreso",
+                        TicketStatus.Resolved => "Resuelto",
+                        _ => ticket.Status.ToString()
+                    };
+                    var badgeClass = ticket.Status switch
+                    {
+                        TicketStatus.Reported => "bg-danger",
+                        TicketStatus.InProgress => "bg-warning text-dark",
+                        TicketStatus.Resolved => "bg-success",
+                        _ => "bg-secondary"
+                    };
+                }
+                <span class="badge @badgeClass">@statusLabel</span>
+            </td>
+            <td>@(ticket.ResolvedAt.HasValue ? ticket.ResolvedAt.Value.ToLocalTime().ToString("dd/MM/yyyy HH:mm") : "—")</td>
+            <td>
+                @* asp-page-handler apunta a OnPostUpdateStatusAsync. El
+                   atributo "data-ticket-description" solo existe para que
+                   el JS de abajo pueda armar un mensaje de confirmación
+                   legible, no tiene nada que ver con el binding del form. *@
+                <form method="post" asp-page-handler="UpdateStatus" class="d-flex gap-2 status-update-form"
+                      data-ticket-description="@ticket.ProblemDescription">
+                    <input type="hidden" name="ticketId" value="@ticket.Id" />
+                    <select name="newStatus" class="form-select form-select-sm">
+                        <option value="@TicketStatus.Reported" selected="@(ticket.Status == TicketStatus.Reported)">Reportado</option>
+                        <option value="@TicketStatus.InProgress" selected="@(ticket.Status == TicketStatus.InProgress)">En progreso</option>
+                        <option value="@TicketStatus.Resolved" selected="@(ticket.Status == TicketStatus.Resolved)">Resuelto</option>
+                    </select>
+                    <button type="submit" class="btn btn-sm btn-outline-secondary">Actualizar</button>
+                </form>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script src="~/js/ticket-status.js"></script>
+}
