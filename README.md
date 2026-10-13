@@ -15,6 +15,16 @@ real (sin mocks, sin SQLite de reemplazo), sobre un caso de uso que es
 literalmente el trabajo del puesto: dar soporte al equipo del gimnasio y
 desarrollar una aplicación chica para gestionarlo.
 
+## Capturas
+
+| Dashboard | Equipo |
+|---|---|
+| ![Dashboard](docs/screenshots/dashboard.png) | ![Equipo del gimnasio](docs/screenshots/equipo.png) |
+
+| Tickets de mantenimiento | Reportar un problema |
+|---|---|
+| ![Tickets de mantenimiento](docs/screenshots/tickets.png) | ![Reportar un problema](docs/screenshots/reportar.png) |
+
 ## Cómo correrlo localmente
 
 Requisitos: .NET 8 SDK y PostgreSQL corriendo en `localhost:5432`.
