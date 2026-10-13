@@ -1,10 +1,58 @@
-﻿@page
+@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Dashboard";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<h1>Dashboard</h1>
+<p class="text-muted">Resumen rápido del estado del equipo y de los tickets de mantenimiento.</p>
+
+<div class="row g-3">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Equipo operativo</h5>
+                <p class="card-text display-6 text-success">@Model.OperationalCount</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">En mantenimiento</h5>
+                <p class="card-text display-6 text-warning">@Model.UnderMaintenanceCount</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Fuera de servicio</h5>
+                <p class="card-text display-6 text-danger">@Model.OutOfServiceCount</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Tickets abiertos</h5>
+                <p class="card-text display-6 text-danger">@Model.OpenTicketCount</p>
+                <p class="card-text text-muted">Reportados o en progreso.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Tickets resueltos</h5>
+                <p class="card-text display-6 text-success">@Model.ResolvedTicketCount</p>
+            </div>
+        </div>
+    </div>
 </div>
+
+<p class="mt-4">
+    <a asp-page="/Equipment/Index" class="btn btn-outline-primary">Ver equipo</a>
+    <a asp-page="/Tickets/Index" class="btn btn-outline-primary">Ver tickets</a>
+    <a asp-page="/Tickets/Report" class="btn btn-primary">Reportar un problema</a>
+</p>
