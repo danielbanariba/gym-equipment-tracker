@@ -1,0 +1,12 @@
+{
+  "ConnectionStrings": {
+    "GymDatabase": "Host=localhost;Database=gym_equipment_tracker;Username=gym_tracker;Password=CAMBIAR_ESTA_CONTRASENA"
+  },
+  "DetailedErrors": true,
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  }
+}
